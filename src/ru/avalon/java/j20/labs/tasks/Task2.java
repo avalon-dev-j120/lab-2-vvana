@@ -2,8 +2,10 @@ package ru.avalon.java.j20.labs.tasks;
 
 import ru.avalon.java.j20.labs.Task;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  * Задание №2
@@ -54,7 +56,17 @@ public class Task2 implements Task {
      * @throws IOException в случае ошибок ввода-вывода.
      */
     private String read(File file) throws IOException {
-        throw new UnsupportedOperationException("Not implement yet!");
+       // throw new UnsupportedOperationException("Not implement yet!");
+        try (InputStream input = new FileInputStream(file);                     // autoclosable 
+                Reader reader = new InputStreamReader(input)) {
+            String text = "";
+            char[] buffer = new char[16];
+            int len;
+            while((len = reader.read(buffer)) != -1) {                          // пока кол-во прочитанных байтов не равно -1
+                text += new String(buffer);                                     // добавляем символы в строку
+            }
+            return text;
+        }
     }
 
     /**
@@ -65,7 +77,15 @@ public class Task2 implements Task {
      * @param text текст
      * @throws IOException в случае ошибок ввода-вывода.
      */
-    private void write(File file, String text) throws IOException {
-        throw new UnsupportedOperationException("Not implemented yet!");
+    private void write(File file, String text) {
+        try {Writer writer = new FileWriter(file);
+            // throw new UnsupportedOperationException("Not implemented yet!");
+            writer.write(text);                                                 // записать
+        } catch (IOException ex) {
+            Logger.getLogger(Task2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
+       
     }
 }

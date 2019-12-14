@@ -1,6 +1,7 @@
 package ru.avalon.java.j20.labs.models;
 
 import java.text.ParseException;
+import java.util.Objects;
 
 /**
  * Модель представления о стране.
@@ -47,7 +48,16 @@ public class Country {
     /*
      * TODO(Студент): для класса Country переопределить методы equals и hashCode
      */
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name);
+    }
 
+    public boolean equals(Country other) {
+        return  code == other.code &&  name == other.name;
+    }
+    
     /**
      * Возвращает экземпляр страны созданный из переданного
      * текста в формате 'Код:Название'.
@@ -61,6 +71,8 @@ public class Country {
         /*
          * TODO(Студент): Реализовать метод valueOf класса Country
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+       // throw new UnsupportedOperationException("Not implemented yet!");
+       String[] words = text.split(":", 2);                                     // разбиваем строку на код и имя
+       return new Country(words[0],words[1]);
     }
 }
