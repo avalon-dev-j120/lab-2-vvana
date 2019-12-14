@@ -2,8 +2,8 @@ package ru.avalon.java.j20.labs.tasks;
 
 import ru.avalon.java.j20.labs.Task;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+
 
 /**
  * Задание №1
@@ -52,9 +52,30 @@ public class Task1 implements Task {
      * @param file файл
      * @return содержимое файла в виде текста.
      * @throws IOException в случае ошибок ввода-вывода.
+     * //
      */
     private String read(File file) throws IOException {
-        throw new UnsupportedOperationException("Not implement yet!");
+        //throw new UnsupportedOperationException("Not implement yet!");
+        InputStream input = null;                                               // открываем файл
+        ByteArrayOutputStream output = null;
+       try {
+           input = new FileInputStream(file);
+           output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[128];                                          // буфер чтения
+        int len = 0;
+        while(len >= 0) {
+            len = input.read(buffer);
+            if (len >= 0) {
+                output.write(buffer, 0, len);
+            }
+        }
+        byte[] bytes = output.toByteArray();
+        return new String(bytes);
+    }
+       finally {                                                                // закрываем ресурсы
+           if(input != null) input.close();
+           if(output != null) output.close();
+       }
     }
 
     /**
@@ -66,6 +87,9 @@ public class Task1 implements Task {
      * @throws IOException в случае ошибок ввода-вывода.
      */
     private void write(File file, String text) throws IOException {
-        throw new UnsupportedOperationException("Not implemented yet!");
+      //  throw new UnsupportedOperationException("Not implemented yet!");
+      OutputStream out = new FileOutputStream(file);                            // открываем файл
+      out.write(text.getBytes());                                               // пишем
+      out.close();                                                              // закрываем
     }
 }
